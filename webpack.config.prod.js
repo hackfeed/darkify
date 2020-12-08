@@ -1,14 +1,14 @@
 const path = require("path");
+const CleanPlugin = require("clean-webpack-plugin");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./src/darkify.ts",
   output: {
-    filename: "darkify.js",
+    filename: "darkify.min.js",
     path: path.resolve(__dirname, "dist"),
-    publicPath: "dist",
   },
-  devtool: "inline-source-map",
+  devtool: "none",
   module: {
     rules: [
       {
@@ -21,4 +21,5 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js"],
   },
+  plugins: [new CleanPlugin.CleanWebpackPlugin()],
 };
