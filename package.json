@@ -5,7 +5,9 @@
   "main": "darkify.js",
   "scripts": {
     "test": "jest",
-    "test:cov": "jest --coverage"
+    "test:cov": "jest --coverage",
+    "build:dev": "webpack",
+    "build:prod": "webpack --config webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
