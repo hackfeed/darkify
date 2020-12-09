@@ -1,0 +1,35 @@
+{
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
+  "parserOptions": {
+    "project": "tsconfig.json"
+  },
+  "rules": {
+    "comma-spacing": "error",
+    "newline-before-return": "error",
+    "no-else-return": "error",
+    "no-eq-null": "error",
+    "no-inline-comments": "error",
+    "no-multiple-empty-lines": "error",
+    "@typescript-eslint/no-unsafe-return": "off",
+    "no-tabs": "error",
+    "no-var": "error",
+    "no-undef": "off",
+    "prefer-const": "error",
+    "prefer-destructuring": "error",
+    "quotes": ["error", "double"],
+    "semi": "error",
+    "semi-spacing": "error",
+    "semi-style": ["error", "last"]
+  }
+}

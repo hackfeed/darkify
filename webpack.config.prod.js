@@ -8,7 +8,7 @@ module.exports = {
     filename: "darkify.min.js",
     path: path.resolve(__dirname, "dist"),
   },
-  devtool: "none",
+  devtool: false,
   module: {
     rules: [
       {
