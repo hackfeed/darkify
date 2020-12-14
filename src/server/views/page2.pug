@@ -1,0 +1,40 @@
+extends layout.pug
+
+block styles
+    link(rel="shortcut icon", href="/img/page2/favicon.png", type="image/png")
+    link(rel="stylesheet", href="https://res.cloudinary.com/finnhvman/raw/upload/matter/matter-0.2.2.min.css")
+    link(rel="stylesheet", href="/css/page2/main.css")
+
+block content
+    .topnav
+        a.matter-body1.active(href="/2") Home
+        a.matter-body1(href="/2") Messages
+        a.matter-body1(href="/2") Friends
+        a.matter-body1(href="/2") Groups
+        a.matter-body1(href="/2") Photos
+        a.matter-body1(href="/2") Videos
+    div
+        h1.matter-h1(style="color: rgb(226, 135, 252);") InK   
+            img(src="/img/page2/favicon.png", alt="InK Logo")
+            p.matter-body1 Developed by #[a.matter-link(href="/2") hackfeed]
+    .feedbox
+        .blogbox
+            img.blogimg(src="/img/page2/1.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Colin, 36
+        .blogbox
+            img.blogimg(src="/img/page2/2.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Adam, 21
+        .blogbox
+            img.blogimg(src="/img/page2/3.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Khamit, 18
+        .blogbox
+            img.blogimg(src="/img/page2/4.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Helen, 32
+        .blogbox
+            img.blogimg(src="/img/page2/5.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Mark, 40
+        .blogbox
+            img.blogimg(src="/img/page2/6.jpeg")
+            h2.matter-h2(style="color: rgb(255, 255, 255); margin: 5px;") Mia, 38
+    if darkModeEnabled
+        script(src="/js/darkify.min.js")

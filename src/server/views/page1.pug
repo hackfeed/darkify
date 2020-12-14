@@ -1,0 +1,73 @@
+extends layout.pug
+
+block styles
+    link(rel="shortcut icon", href="/img/page1/favicon.png", type="image/png")
+    link(rel="stylesheet", href="https://res.cloudinary.com/finnhvman/raw/upload/matter/matter-0.2.2.min.css")
+    link(rel="stylesheet", href="/css/page1/main.css")
+
+block content
+    div
+        h1.matter-h1 WineChecker
+            img(src="/img/page1/favicon.png", alt="WineChecker Logo")
+            p.matter-body1 Developed by #[a.matter-link(href="/") hackfeed]
+    div
+        h2.matter-h2 Input wine parameters
+        label.matter-textfield-standard(style="width: 50%;")
+            input#facid(placeholder=" ")
+            span.placeholder Fixed acidity, g/dm#[sup 3] (from 4.9 to 15.6)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#vacid(placeholder=" ")
+            span.placeholder Volatile acidity, g/dm#[sup 3] (from 0.12 to 1.58)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#cacid(placeholder=" ")
+            span.placeholder Citric acid, g/dm#[sup 3] (from 0 to 1)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#rsugar(placeholder=" ")
+            span.placeholder Residual sugar, g/dm#[sup 3] (from 0.9 to 15.5)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#chlorides(placeholder=" ")
+            span.placeholder Chlorides, g/dm#[sup 3] (from 0.01 to 0.61)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#fsdioxide(placeholder=" ")
+            span.placeholder Free sulfur dioxide, mg/dm#[sup 3] (from 1 to 72)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#tsdioxide(placeholder=" ")
+            span.placeholder Total sulfur dioxide, mg/dm#[sup 3] (from 6 to 289)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#density(placeholder=" ")
+            span.placeholder Density, g/cm#[sup 3] (from 0.99 to 1)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#ph(placeholder=" ")
+            span.placeholder pH (from 2.74 to 4)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#sulphates(placeholder=" ")
+            span.placeholder Sulphates, g/dm#[sup 3] (from 0.33 to 2)
+        br
+        br
+        label.matter-textfield-standard(style="width: 50%;")
+            input#alcohol(placeholder=" ")
+            span.placeholder Alcohol, % by volume (from 8.4 to 14.9)
+        br
+        br
+    div
+        button.matter-button-contained#get-data-btn(style="width: 200px; height: 50px;", disabled) Get Wine Quality
+    if darkModeEnabled
+        script(src="/js/darkify.min.js")
