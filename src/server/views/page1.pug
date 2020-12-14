@@ -2,16 +2,15 @@ extends layout.pug
 
 block styles
     link(rel="shortcut icon", href="/img/page1/favicon.png", type="image/png")
-    link(rel="stylesheet", href="https://res.cloudinary.com/finnhvman/raw/upload/matter/matter-0.2.2.min.css")
     link(rel="stylesheet", href="/css/page1/main.css")
 
 block content
     div
-        h1.matter-h1 WineChecker
+        h1.matter-h1.title WineChecker
             img(src="/img/page1/favicon.png", alt="WineChecker Logo")
             p.matter-body1 Developed by #[a.matter-link(href="/") hackfeed]
     div
-        h2.matter-h2 Input wine parameters
+        h2.matter-h2.title Input wine parameters
         label.matter-textfield-standard(style="width: 50%;")
             input#facid(placeholder=" ")
             span.placeholder Fixed acidity, g/dm#[sup 3] (from 4.9 to 15.6)

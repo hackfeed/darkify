@@ -2,7 +2,7 @@ const path = require("path");
 
 module.exports = {
   mode: "development",
-  entry: "./src/darkify.ts",
+  entry: "./src/extension/darkify.ts",
   output: {
     filename: "darkify.js",
     path: path.resolve(__dirname, "dist"),

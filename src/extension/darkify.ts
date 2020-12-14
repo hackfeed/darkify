@@ -14,6 +14,24 @@ const printRGB = (color: RGB) => {
   return `rgb(${color.red}, ${color.green}, ${color.blue})`;
 };
 
+const printHSL = (color: HSL) => {
+  return `hsl(${color.hue}, ${color.saturation}%, ${color.lightness}%)`;
+};
+
+const stringToRgb = (color: string) => {
+  const colors = color
+    .slice(4, color.length - 1)
+    .split(",")
+    .map((c) => Number(c.trim()));
+  const convColor: RGB = {
+    red: colors[0],
+    green: colors[1],
+    blue: colors[2],
+  };
+
+  return convColor;
+};
+
 const convertRGBToHSL = (baseColor: RGB): HSL => {
   const red = baseColor.red / 255;
   const green = baseColor.green / 255;
@@ -56,58 +74,6 @@ const convertRGBToHSL = (baseColor: RGB): HSL => {
   return convColor;
 };
 
-const convertHSLToRGB = (baseColor: HSL): RGB => {
-  const hue = baseColor.hue / 360;
-  const saturation = baseColor.saturation / 100;
-  const lightness = baseColor.lightness / 100;
-  let t2, t3, value;
-
-  const convColor: RGB = {
-    red: lightness * 255,
-    green: lightness * 255,
-    blue: lightness * 255,
-  };
-
-  if (saturation === 0) {
-    return convColor;
-  }
-
-  if (lightness < 0.5) {
-    t2 = lightness * (1 + saturation);
-  } else {
-    t2 = lightness + saturation - lightness * saturation;
-  }
-
-  const t1 = 2 * lightness - t2;
-
-  const rgb = [0, 0, 0];
-  for (let i = 0; i < 3; ++i) {
-    t3 = hue + (1 / 3) * -(i - 1);
-    if (t3 < 0) {
-      t3++;
-    } else if (t3 > 1) {
-      t3--;
-    }
-    if (6 * t3 < 1) {
-      value = t1 + (t2 - t1) * 6 * t3;
-    } else if (2 * t3 < 1) {
-      value = t2;
-    } else if (3 * t3 < 2) {
-      value = t1 + (t2 - t1) * (2 / 3 - t3) * 6;
-    } else {
-      value = t1;
-    }
-
-    rgb[i] = value * 255;
-  }
-
-  convColor.red = Math.round(rgb[0]);
-  convColor.green = Math.round(rgb[1]);
-  convColor.blue = Math.round(rgb[2]);
-
-  return convColor;
-};
-
 const getRelativeLuminance = (color: RGB): number => {
   const rgb = [color.red / 255, color.green / 255, color.blue / 255];
 
@@ -128,58 +94,57 @@ const getStyle = (el: HTMLElement, prop: string) => {
   return style;
 };
 
-const isSameDomain = (styleSheet: CSSStyleSheet) => {
-  if (!styleSheet.href) {
-    return true;
-  }
-
-  return styleSheet.href.indexOf(window.location.origin) === 0;
-};
-
-const isStyleRule = (rule: CSSRule): rule is CSSStyleRule => rule.type === 1;
-
-const getColorCSSRules = () =>
-  [...document.styleSheets].filter(isSameDomain).reduce<CSSRule[]>(
-    (finalArr, sheet) =>
-      finalArr.concat(
-        [...sheet.cssRules]
-          .filter(isStyleRule)
-          .reduce<any>((propValArr: string[], rule: CSSStyleRule) => {
-            const props = [...rule.style]
-              .map((propName: string) => [
-                propName.trim(),
-                rule.style.getPropertyValue(propName).trim(),
-              ])
-              .filter(([propName]) => propName.includes("color"));
-
-            return [...propValArr, ...props];
-          }, [])
-      ),
-    []
-  );
-
 const BASE_BACKGROUND_RGB: RGB = {
   red: 18,
   green: 18,
   blue: 18,
 };
-
-const BASE_FOREGROUND_RGB: RGB = {
+const WHITE_BACKGROUND_RGB: RGB = {
   red: 255,
   green: 255,
   blue: 255,
 };
-
 const BASE_BACKGROUND_HSL = convertRGBToHSL(BASE_BACKGROUND_RGB);
+const BASE_FOREGROUND_COLOR = "rgba(255, 255, 255, 0.87)";
+const BASE_COLOR =
+  getStyle(document.body, "background-color") === "rgba(0, 0, 0, 0)"
+    ? WHITE_BACKGROUND_RGB
+    : stringToRgb(getStyle(document.body, "background-color"));
 
-const allNodes = document.body.querySelectorAll("*");
 document.body.style.backgroundColor = printRGB(BASE_BACKGROUND_RGB);
-for (const node of allNodes) {
-  const textColor = getStyle(node as HTMLElement, "color");
-  if (textColor.startsWith("rgba(0, 0, 0") || textColor === "rgb(0, 0, 0)") {
-    (node as HTMLElement).style.color = printRGB(BASE_FOREGROUND_RGB);
-  }
-  if ((node as HTMLElement).style.borderBottomColor) {
-    (node as HTMLElement).style.borderBottomColor = printRGB(BASE_FOREGROUND_RGB);
+for (const styleSheet of document.styleSheets) {
+  for (const rule of styleSheet.cssRules) {
+    if (rule.type == rule.STYLE_RULE) {
+      const styleRule = (rule as CSSStyleRule).style;
+      for (const key in styleRule) {
+        if (key === "color") {
+          if (styleRule[key]) {
+            styleRule[key] = BASE_FOREGROUND_COLOR;
+          }
+        } else if (key.toLowerCase().includes("color")) {
+          if (styleRule[key]) {
+            const initColor = stringToRgb(styleRule[key]);
+
+            let initLum = getRelativeLuminance(initColor);
+            let backLum = getRelativeLuminance(BASE_COLOR);
+            if (initLum > backLum) {
+              [backLum, initLum] = [initLum, backLum];
+            }
+
+            const multiplier = (backLum + 0.05) / (initLum + 0.05) + 1;
+            console.log(multiplier);
+            const colorHsl: HSL = {
+              hue: BASE_BACKGROUND_HSL.hue,
+              saturation: BASE_BACKGROUND_HSL.saturation,
+              lightness: multiplier
+                ? BASE_BACKGROUND_HSL.lightness * multiplier
+                : BASE_BACKGROUND_HSL.lightness,
+            };
+            console.log(printHSL(colorHsl));
+            styleRule[key] = printHSL(colorHsl);
+          }
+        }
+      }
+    }
   }
 }

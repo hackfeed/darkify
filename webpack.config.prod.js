@@ -3,7 +3,7 @@ const CleanPlugin = require("clean-webpack-plugin");
 
 module.exports = {
   mode: "production",
-  entry: "./src/darkify.ts",
+  entry: "./src/extension/darkify.ts",
   output: {
     filename: "darkify.min.js",
     path: path.resolve(__dirname, "dist"),

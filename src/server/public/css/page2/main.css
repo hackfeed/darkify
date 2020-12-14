@@ -29,6 +29,10 @@ body {
   color: rgb(255, 255, 255);
 }
 
+.title {
+  color: rgb(226, 135, 252);
+}
+
 .feedbox {
   display: flex;
   flex-direction: row;
@@ -42,13 +46,12 @@ body {
   background-color: rgb(226, 135, 252);
   width: 400px;
   height: 500px;
-  border: solid 3px rgb(138, 207, 255);
   flex-direction: column;
+  color: rgb(255, 255, 255);
 }
 
 .blogimg {
   margin: 3px;
   width: 390px;
   height: 390px;
-  border: solid 1px rgb(138, 207, 255);
 }

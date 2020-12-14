@@ -7,3 +7,7 @@ body {
 .placeholder {
   text-align: left;
 }
+
+.title {
+  color: rgb(0, 0, 0);
+}
