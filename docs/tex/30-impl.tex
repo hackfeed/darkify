@@ -18,38 +18,38 @@
 
 \section{Детали реализации}
 
-В листингах \ref{lst:pagecolors} -- \ref{lst:luminance} приведены реализации алгоритмов получения цветов элементов всей страницы для последующего составления цветовой карты, конвертации цветов из RGB в HSL для последующего подбора цвета, конвертации цветов из HSL в RGB для последующего нахождения относительной яркости и нахождения относительной яркости соответственно. 
-
-\begin{lstinputlisting}[
-	caption={Реализация алгоритма получения цветов всех элементов страницы},
-	label={lst:pagecolors},
-	style={ES6},
-	linerange={141-160},
-	]{/home/hackfeed/bmstu/labs/darkify/src/darkify.ts}
-\end{lstinputlisting}
+В листингах \ref{lst:rgbtohsl} -- \ref{lst:change} приведены реализации алгоритмов конвертации цветов из RGB в HSL для последующего подбора цвета, нахождения относительной яркости, преобразования представлении цветов для записи в таблицу стилей CSS и изменения цветов на основе базового соответственно. 
 
 \begin{lstinputlisting}[
 	caption={Реализация алгоритма конвертации цвета из RGB в HSL},
 	label={lst:rgbtohsl},
 	style={ES6},
-	linerange={17-58},
-	]{/home/hackfeed/bmstu/labs/darkify/src/darkify.ts}
-\end{lstinputlisting}
-
-\begin{lstinputlisting}[
-	caption={Реализация алгоритма конвертации цвета из HSL в RGB},
-	label={lst:hsltorgb},
-	style={ES6},
-	linerange={59-110},
-	]{/home/hackfeed/bmstu/labs/darkify/src/darkify.ts}
+	linerange={35-76},
+	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
 \begin{lstinputlisting}[
 	caption={Реализация алгоритма нахождения относительной яркости},
 	label={lst:luminance},
 	style={ES6},
-	linerange={111-122},
-	]{/home/hackfeed/bmstu/labs/darkify/src/darkify.ts}
+	linerange={77-88},
+	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	caption={Реализация алгоритмов нахождения преобразования представлений цветов},
+	label={lst:translate},
+	style={ES6},
+	linerange={13-34},
+	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	caption={Реализация алгоритма подбора цветов на основе базовго},
+	label={lst:change},
+	style={ES6},
+	linerange={97-151},
+	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
 \section*{Вывод}
