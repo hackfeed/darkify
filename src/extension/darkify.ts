@@ -1,3 +1,6 @@
+declare let ColorThief: any;
+declare let html2canvas: any;
+
 interface RGB {
   red: number;
   green: number;
@@ -94,57 +97,81 @@ const getStyle = (el: HTMLElement, prop: string) => {
   return style;
 };
 
-const BASE_BACKGROUND_RGB: RGB = {
-  red: 18,
-  green: 18,
-  blue: 18,
-};
-const WHITE_BACKGROUND_RGB: RGB = {
-  red: 255,
-  green: 255,
-  blue: 255,
-};
-const BASE_BACKGROUND_HSL = convertRGBToHSL(BASE_BACKGROUND_RGB);
-const BASE_FOREGROUND_COLOR = "rgba(255, 255, 255, 0.87)";
-const BASE_COLOR =
-  getStyle(document.body, "background-color") === "rgba(0, 0, 0, 0)"
-    ? WHITE_BACKGROUND_RGB
-    : stringToRgb(getStyle(document.body, "background-color"));
+const getDominantColor = async (): Promise<RGB> => {
+  const canvas: HTMLCanvasElement = await html2canvas(document.body);
+  const dataUrl = canvas.toDataURL();
 
-document.body.style.backgroundColor = printRGB(BASE_BACKGROUND_RGB);
-for (const styleSheet of document.styleSheets) {
-  for (const rule of styleSheet.cssRules) {
-    if (rule.type == rule.STYLE_RULE) {
-      const styleRule = (rule as CSSStyleRule).style;
-      for (const key in styleRule) {
-        if (key === "color") {
-          if (styleRule[key]) {
-            styleRule[key] = BASE_FOREGROUND_COLOR;
-          }
-        } else if (key.toLowerCase().includes("color")) {
-          if (styleRule[key]) {
-            const initColor = stringToRgb(styleRule[key]);
+  const pageImg = document.createElement("img");
+  pageImg.src = dataUrl;
 
-            let initLum = getRelativeLuminance(initColor);
-            let backLum = getRelativeLuminance(BASE_COLOR);
-            if (initLum > backLum) {
-              [backLum, initLum] = [initLum, backLum];
+  const colorThief = new ColorThief();
+  let rgb;
+  if (pageImg.complete) {
+    rgb = colorThief.getColor(pageImg);
+  } else {
+    pageImg.addEventListener("load", () => {
+      rgb = colorThief.getColor(pageImg);
+    });
+  }
+
+  await new Promise((r) => setTimeout(r, 100));
+
+  const domColor: RGB = {
+    red: rgb[0],
+    green: rgb[1],
+    blue: rgb[2],
+  };
+
+  return domColor;
+};
+
+const main = async () => {
+  const BASE_BACKGROUND_RGB: RGB = {
+    red: 18,
+    green: 18,
+    blue: 18,
+  };
+  const BASE_BACKGROUND_HSL = convertRGBToHSL(BASE_BACKGROUND_RGB);
+  const BASE_FOREGROUND_COLOR = "rgba(255, 255, 255, 0.87)";
+  const BASE_COLOR = await getDominantColor();
+
+  document.body.style.backgroundColor = printRGB(BASE_BACKGROUND_RGB);
+  for (const styleSheet of document.styleSheets) {
+    for (const rule of styleSheet.cssRules) {
+      if (rule.type == rule.STYLE_RULE) {
+        const styleRule = (rule as CSSStyleRule).style;
+        for (const key in styleRule) {
+          if (key === "color") {
+            if (styleRule[key]) {
+              styleRule[key] = BASE_FOREGROUND_COLOR;
             }
+          } else if (key.toLowerCase().includes("color")) {
+            if (styleRule[key]) {
+              const initColor = stringToRgb(styleRule[key]);
 
-            const multiplier = (backLum + 0.05) / (initLum + 0.05) + 1;
-            console.log(multiplier);
-            const colorHsl: HSL = {
-              hue: BASE_BACKGROUND_HSL.hue,
-              saturation: BASE_BACKGROUND_HSL.saturation,
-              lightness: multiplier
-                ? BASE_BACKGROUND_HSL.lightness * multiplier
-                : BASE_BACKGROUND_HSL.lightness,
-            };
-            console.log(printHSL(colorHsl));
-            styleRule[key] = printHSL(colorHsl);
+              let initLum = getRelativeLuminance(initColor);
+              let backLum = getRelativeLuminance(BASE_COLOR);
+              if (initLum > backLum) {
+                [backLum, initLum] = [initLum, backLum];
+              }
+
+              const multiplier = (backLum + 0.05) / (initLum + 0.05) + 1;
+              const colorHsl: HSL = {
+                hue: BASE_BACKGROUND_HSL.hue,
+                saturation: BASE_BACKGROUND_HSL.saturation,
+                lightness: multiplier
+                  ? BASE_BACKGROUND_HSL.lightness * multiplier
+                  : BASE_BACKGROUND_HSL.lightness,
+              };
+              styleRule[key] = printHSL(colorHsl);
+            }
           }
         }
       }
     }
   }
-}
+};
+
+main()
+  .then((res) => console.log(res))
+  .catch((err) => console.log(err));

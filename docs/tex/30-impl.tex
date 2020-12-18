@@ -16,15 +16,17 @@
 
 В качестве среды разработки выбран текстовый редактор Visual Studio Code \cite{vscode}. Данный выбор обусловлен большим количеством плагинов под разные инструменты. Плагины позволяют облешчить и ускорить разработку программного обеспечения.
 
+Для определения доминантного цвета на странице были использованы в связке библиотеки html2canvas \cite{html2canvas} и Color Thief \cite{colorthief}. html2canvas позволяет пробразовать страницу к изображению, а Color Thief выделяет карту цветов и доминантный цвет.
+
 \section{Детали реализации}
 
-В листингах \ref{lst:rgbtohsl} -- \ref{lst:change} приведены реализации алгоритмов конвертации цветов из RGB в HSL для последующего подбора цвета, нахождения относительной яркости, преобразования представлении цветов для записи в таблицу стилей CSS и изменения цветов на основе базового соответственно. 
+В листингах \ref{lst:rgbtohsl} -- \ref{lst:change} приведены реализации алгоритмов конвертации цветов из RGB в HSL для последующего подбора цвета, нахождения относительной яркости, нахождение доминантного цвета, преобразования представлении цветов для записи в таблицу стилей CSS и изменения цветов на основе доминантного соответственно. 
 
 \begin{lstinputlisting}[
 	caption={Реализация алгоритма конвертации цвета из RGB в HSL},
 	label={lst:rgbtohsl},
 	style={ES6},
-	linerange={35-76},
+	linerange={38-79},
 	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
@@ -32,7 +34,15 @@
 	caption={Реализация алгоритма нахождения относительной яркости},
 	label={lst:luminance},
 	style={ES6},
-	linerange={77-88},
+	linerange={80-91},
+	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+\end{lstinputlisting}
+
+\begin{lstinputlisting}[
+	caption={Реализация алгоритма нахождения доминантного цвета},
+	label={lst:domcolor},
+	style={ES6},
+	linerange={100-127},
 	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
@@ -40,7 +50,7 @@
 	caption={Реализация алгоритмов нахождения преобразования представлений цветов},
 	label={lst:translate},
 	style={ES6},
-	linerange={13-34},
+	linerange={16-37},
 	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
@@ -48,7 +58,7 @@
 	caption={Реализация алгоритма подбора цветов на основе базовго},
 	label={lst:change},
 	style={ES6},
-	linerange={97-151},
+	linerange={128-173},
 	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
