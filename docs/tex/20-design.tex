@@ -30,15 +30,23 @@
 	\caption{Изменение цвета компонентов на основе анализа цветовой карты}
 	\label{alg:analchange}
 	\begin{algorithmic}[1]
-		\ForAll {элементы страницы}
-		\State $BaseColor$ $\Leftarrow$ цвет родительского элемента
-		\State $CurColor$ $\Leftarrow$ цвет текущего элемента
-		\State $X$ $\Leftarrow$ относительная яркость $CurColor$ к $BaseColor$
-		\State $NewCurColor$ $\Leftarrow$ $BaseColor$ с яркостью большей в $X$ раз
-		\State $Y$ $\Leftarrow$ относительная яркость $NewCurColor$ к $NewBaseColor$, где $NewBaseColor = NewCurColor$ для родительского элемента
-		\If {$Y < 3$}
-		\State скорректировть $NewCurColor$ в зависимости от $Y$
+		\State $DomColor$ $\Leftarrow$ вычисленный доминантный цвет
+		\State $DomColorLightness$ $\Leftarrow$ относительная яркость $DomColor$
+		\State $NewDomColor$ $\Leftarrow$ \#121212
+		\State $ColorMap$ $\Leftarrow$ составленная цветовая карта
+		\ForAll {цвета из $ColorMap$}
+		\State $CurColor$ $\Leftarrow$ цвет из цветовой карты
+		\State $CurColorLightness$ $\Leftarrow$ относительная яркость $CurColor$
+		\If {$CurColorLightness$ > $DomColorLightness$}
+		\State $X$ $\Leftarrow$ контрастность $CurColor$ к $DomColor$
+		\Else
+		\State $X$ $\Leftarrow$ контрастность $DomColor$ к $CurColor$
 		\EndIf
+		\State $NewCurColor$ $\Leftarrow$ $NewDomColor$ с яркостью большей в $X$ раз
+		\State $Y$ $\Leftarrow$ контрастность $NewCurColor$ к $NewDomColor$
+		\While {$Y < 3$}
+		\State $NewCurColor.L$ $\Leftarrow$ $NewCurColor.L$ $\times$ 1.2
+		\EndWhile
 		\EndFor
 	\end{algorithmic}
 \end{algorithm}
