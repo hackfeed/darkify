@@ -105,3 +105,6 @@ dist
 
 # Clientside JS
 js/
+
+# OSX
+.DS_Store

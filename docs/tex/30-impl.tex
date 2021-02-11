@@ -20,24 +20,16 @@
 
 \section{Детали реализации}
 
-В листингах \ref{lst:rgbtohsl} -- \ref{lst:change} приведены реализации алгоритмов конвертации цветов из RGB в HSL для последующего подбора цвета, нахождения относительной яркости, нахождение доминантного цвета, преобразования представлении цветов для записи в таблицу стилей CSS и изменения цветов на основе доминантного соответственно. 
+В листингах \ref{lst:luminance} -- \ref{lst:change} приведены реализации алгоритмов нахождения относительной яркости, нахождение доминантного цвета и изменения цветов на основе доминантного соответственно. 
 
 Для изменения цветового представления у элементов DOM-дерева изменялись атрибуты, отвечающие за цветовые характеристики, такие как background-color, color, border-color и т.п. Все эти атрибуты имеют в своем названии ключевое слово color, поэтому для нахождения всех таких атрибутов достаточно было применить фильтр по ключевому слову color. Реализация такого фильтра с последующим изменением представлена в листинге \ref{lst:change}.
-
-\begin{lstinputlisting}[
-	caption={Реализация алгоритма конвертации цвета из RGB в HSL},
-	label={lst:rgbtohsl},
-	style={ES6},
-	linerange={38-79},
-	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
-\end{lstinputlisting}
 
 \begin{lstinputlisting}[
 	caption={Реализация алгоритма нахождения относительной яркости},
 	label={lst:luminance},
 	style={ES6},
 	linerange={80-91},
-	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+	]{/Users/s.kononenko/Study/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
 \begin{lstinputlisting}[
@@ -45,15 +37,7 @@
 	label={lst:domcolor},
 	style={ES6},
 	linerange={100-127},
-	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
-\end{lstinputlisting}
-
-\begin{lstinputlisting}[
-	caption={Реализация алгоритмов нахождения преобразования представлений цветов},
-	label={lst:translate},
-	style={ES6},
-	linerange={16-37},
-	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+	]{/Users/s.kononenko/Study/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
 \begin{lstinputlisting}[
@@ -61,7 +45,7 @@
 	label={lst:change},
 	style={ES6},
 	linerange={128-173},
-	]{/home/hackfeed/bmstu/labs/darkify/src/extension/darkify.ts}
+	]{/Users/s.kononenko/Study/darkify/src/extension/darkify.ts}
 \end{lstinputlisting}
 
 \section*{Вывод}
